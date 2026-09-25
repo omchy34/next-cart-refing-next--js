@@ -1,6 +1,6 @@
 // inngest/functions.ts
 import { inngest } from "./client";
-import prisma from '../prisma'
+import { prisma } from '../lib/prisma'
 
 export const syncUserCreation = inngest.createFunction({
     id: 'sync-user-creation',
@@ -34,12 +34,12 @@ export const syncUserDataUpdate = inngest.createFunction(
         }]
     },
 
-    async({event}) => {
-        const {data} = event ;
+    async ({ event }) => {
+        const { data } = event;
 
         await prisma.user.update({
-            where:{id: data.id},
-             data: {
+            where: { id: data.id },
+            data: {
                 email: data.email_addresses[0].email_address,
                 name: `${data.first_name} ${data.last_name}`,
                 image: data.image_url,
@@ -53,16 +53,16 @@ export const syncUserDataUpdate = inngest.createFunction(
 export const syncUserDeletion = inngest.createFunction(
     {
         id: "sync-user-delete",
-        triggers:[{
+        triggers: [{
             event: "clerk/event.deleted"
         }]
     },
 
-    async({event}) => {
-        const {data} = event ;
+    async ({ event }) => {
+        const { data } = event;
 
         await prisma.user.delete({
-            where:{id: data.id},
+            where: { id: data.id },
         })
     }
 )
