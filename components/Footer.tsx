@@ -27,6 +27,7 @@ const Footer = () => {
                 { text: "About us", path: '/about', icon: null },
                 { text: "Contact", path: '/contact', icon: null },
                 { text: "Privacy Policy", path: '/', icon: null },
+                { text: "Create your store", path: '/create-store', icon: null },
             ]
         },
         {

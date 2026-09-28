@@ -149,7 +149,7 @@ model Store {
   username    String   @unique
   address     String
   status      String   @default("pending")
-  isActive    Boolean  @default(false)
+  isActive    Boolean  @default(false)  
   logo        String
   email       String
   contact     String
