@@ -1,23 +1,46 @@
 'use client'
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Loading from "../Loading"
 import Link from "next/link"
 import { ArrowRightIcon } from "lucide-react"
 import SellerNavbar from "./StoreNavbar"
 import SellerSidebar from "./StoreSidebar"
-import { dummyStoreData } from "@/assets/assets"
+import axios from "axios"
+import { useAuth } from "@clerk/nextjs"
+import toast from "react-hot-toast"
 
-const StoreLayout = ({ children }) => {
+interface storeInfo {
+    name: string;
+    description: string;
+    username: string;
+    address: string;
+    logo: string;
+    email: string;
+    contact: string;
+}
+
+const StoreLayout = ({ children }: {children: React.ReactNode}) => {
 
 
     const [isSeller, setIsSeller] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [storeInfo, setStoreInfo] = useState(null)
+    const [storeInfo, setStoreInfo] = useState<storeInfo>()
+
+    const {getToken} = useAuth() ;
 
     const fetchIsSeller = async () => {
-        setIsSeller(true)
-        setStoreInfo(dummyStoreData)
-        setLoading(false)
+        const token = getToken()
+
+        const {data} = await axios.get("/api/store/is-saller", {
+            headers: {Authorization: `Bearer ${token}`}
+        })
+
+        setIsSeller(data.isSaller)
+        setStoreInfo(data.storeInfo)
+        
+        toast.success("fetch succssfully")
+        console.log(data);
+        
     }
 
     useEffect(() => {

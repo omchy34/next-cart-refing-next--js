@@ -1,5 +1,4 @@
 'use client'
-import { dummyStoreDashboardData } from "@/assets/assets"
 import Loading from "@/components/Loading"
 import { CircleDollarSignIcon, ShoppingBasketIcon, StarIcon, TagsIcon } from "lucide-react"
 import Image from "next/image"
@@ -28,8 +27,9 @@ export default function Dashboard() {
     ]
 
     const fetchDashboardData = async () => {
-        setDashboardData(dummyStoreDashboardData)
+        // setDashboardData(dummyStoreDashboardData)
         setLoading(false)
+        
     }
 
     useEffect(() => {

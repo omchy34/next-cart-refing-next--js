@@ -13,6 +13,8 @@ export async function GET(request: Request) {
         if (!isAdmin) {
             return NextResponse.json({ message: "not authorized" }, { status: 401 })
         }
+
+        return NextResponse.json({isAdmin})
     } catch (error:any) {
         console.error(error);
         return NextResponse.json({ error: error.code || error.message }, { status: 400 })
