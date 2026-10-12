@@ -1,35 +1,52 @@
 'use client'
 import Loading from "@/components/Loading"
+import { useAuth } from "@clerk/nextjs"
+import axios from "axios"
 import { CircleDollarSignIcon, ShoppingBasketIcon, StarIcon, TagsIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
+interface dashboard {
+    totalProduct: number,
+    totalEarnings: number,
+    totalOrder: number,
+    rating: any[],
+}
+
 export default function Dashboard() {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
-
-    const router = useRouter()
+    const { getToken } = useAuth();
+    const router = useRouter();
 
     const [loading, setLoading] = useState(true)
-    const [dashboardData, setDashboardData] = useState({
-        totalProducts: 0,
+    const [dashboardData, setDashboardData] = useState<dashboard>({
         totalEarnings: 0,
-        totalOrders: 0,
-        ratings: [],
+        totalOrder: 0,
+        totalProduct: 0,
+        rating: [],
     })
 
     const dashboardCardsData = [
-        { title: 'Total Products', value: dashboardData.totalProducts, icon: ShoppingBasketIcon },
+        { title: 'Total Products', value: dashboardData.totalProduct, icon: ShoppingBasketIcon },
         { title: 'Total Earnings', value: currency + dashboardData.totalEarnings, icon: CircleDollarSignIcon },
-        { title: 'Total Orders', value: dashboardData.totalOrders, icon: TagsIcon },
-        { title: 'Total Ratings', value: dashboardData.ratings.length, icon: StarIcon },
+        { title: 'Total Orders', value: dashboardData.totalOrder, icon: TagsIcon },
+        { title: 'Total Ratings', value: dashboardData.rating.length, icon: StarIcon },
     ]
 
     const fetchDashboardData = async () => {
-        // setDashboardData(dummyStoreDashboardData)
+        const token = await getToken();
+        const { data } = await axios.get("/api/store/dashboard", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
+        console.log(data);
+
+
+        setDashboardData(data.dashboardData)
         setLoading(false)
-        
+
     }
 
     useEffect(() => {
@@ -60,7 +77,7 @@ export default function Dashboard() {
 
             <div className="mt-5">
                 {
-                    dashboardData.ratings.map((review, index) => (
+                    dashboardData.rating.map((review, index) => (
                         <div key={index} className="flex max-sm:flex-col gap-5 sm:items-center justify-between py-6 border-b border-slate-200 text-sm text-slate-600 max-w-4xl">
                             <div>
                                 <div className="flex gap-3">

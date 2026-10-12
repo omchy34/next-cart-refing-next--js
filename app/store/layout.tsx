@@ -1,5 +1,7 @@
+"use client"
+
 import StoreLayout from "@/components/store/StoreLayout";
-export default function RootAdminLayout({ children }: LayoutProps<"/">) {
+export default function RootAdminLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <body>

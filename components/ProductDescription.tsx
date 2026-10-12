@@ -113,6 +113,7 @@ const ProductDescription = ({ product }: ProductDescriptionProps) => {
             </div>
 
             {/* Store */}
+            
             <div className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm sm:w-fit sm:pr-8">
                 <Image
                     src={product.store.logo}

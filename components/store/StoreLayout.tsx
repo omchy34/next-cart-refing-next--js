@@ -10,37 +10,47 @@ import { useAuth } from "@clerk/nextjs"
 import toast from "react-hot-toast"
 
 interface storeInfo {
-    name: string;
-    description: string;
-    username: string;
     address: string;
-    logo: string;
-    email: string;
     contact: string;
+    description: string;
+    email: string;
+    isActive: boolean;
+    logo: string;
+    name: string;
+    status: string;
+    username: string;
 }
 
-const StoreLayout = ({ children }: {children: React.ReactNode}) => {
+const StoreLayout = ({ children }: { children: React.ReactNode }) => {
 
 
     const [isSeller, setIsSeller] = useState(false)
     const [loading, setLoading] = useState(true)
     const [storeInfo, setStoreInfo] = useState<storeInfo>()
 
-    const {getToken} = useAuth() ;
+    const { getToken } = useAuth();
 
     const fetchIsSeller = async () => {
-        const token = getToken()
+        try {
+            const token = await getToken()
 
-        const {data} = await axios.get("/api/store/is-saller", {
-            headers: {Authorization: `Bearer ${token}`}
-        })
+            const { data } = await axios.get("/api/store/is-saller", {
+                headers: { Authorization: `Bearer ${token}` }
+            })
 
-        setIsSeller(data.isSaller)
-        setStoreInfo(data.storeInfo)
-        
-        toast.success("fetch succssfully")
-        console.log(data);
-        
+            console.log(data);
+
+            setIsSeller(data.isSaller)
+            setStoreInfo(data.storeInfo)
+
+            toast.success("fetch succssfully")
+            console.log(data);
+        } catch (error: any) {
+            toast.error("500 error", error)
+        } finally {
+            setLoading(false)
+        }
+
     }
 
     useEffect(() => {
@@ -53,7 +63,7 @@ const StoreLayout = ({ children }: {children: React.ReactNode}) => {
         <div className="flex flex-col h-screen">
             <SellerNavbar />
             <div className="flex flex-1 items-start h-full overflow-y-scroll no-scrollbar">
-                <SellerSidebar storeInfo={storeInfo} />
+                {storeInfo && <SellerSidebar storeInfo={storeInfo} />}
                 <div className="flex-1 h-full p-5 lg:pl-12 lg:pt-12 overflow-y-scroll">
                     {children}
                 </div>

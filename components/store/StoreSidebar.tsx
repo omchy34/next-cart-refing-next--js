@@ -5,15 +5,16 @@ import Image from "next/image"
 import Link from "next/link"
 
 interface storeInfo {
-    name: string;
-    description: string;
-    username: string;
-    address: string;
-    logo: string;
-    email: string;
-    contact: string;
+    address: string ;
+    contact: string ;
+    description: string ;
+    email: string ;
+    isActive: boolean ;
+    logo: string ;
+    name: string ;
+    status: string ;
+    username: string ;
 }
-
 const StoreSidebar = ({ storeInfo }: { storeInfo: storeInfo }) => {
 
     const pathname = usePathname()

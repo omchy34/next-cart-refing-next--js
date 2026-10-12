@@ -3,7 +3,7 @@ import authAdmin from "@/middlewere/authAdmin";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
 
     try {
         const { userId } = await auth();
@@ -30,13 +30,13 @@ export async function GET(request: Request) {
             error: "Store not found"
         }, { status: 400 })
 
-        await prisma.store.update({
+        const res = await prisma.store.update({
             where: {id: storeId},
             data: {isActive: !store.isActive}
         })
 
 
-        return NextResponse.json({ message:"store update successfully" })
+        return NextResponse.json({ message:"store update successfully" } )
         
     } catch (error: any) {
         console.error(error);

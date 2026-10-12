@@ -20,7 +20,7 @@ const authSaller = async (userId: string): Promise<string | NextResponse> => {
         if (user?.store) {
             if (user.store.status === "approved") {
                 return user.store.id
-            }
+            }   
             return NextResponse.json({ message: "Store not approved" }, { status: 403 })
         } else {
             return NextResponse.json({ message: "Store not found" }, { status: 404 })

@@ -3,23 +3,23 @@ import Image from "next/image"
 import { MapPin, Mail, Phone } from "lucide-react"
 
 interface Store {
-  id: string;
-  userId: string;
-  name: string;
-  description: string;
-  username: string;
-  address: string;
-  status: 'pending' | 'approved' | 'rejected'; 
-  isActive: boolean;
-  logo: string;
-  email: string;
-  contact: string;
-  createdAt: string; 
-  updatedAt: string; 
-  user: any;
+    id: string;
+    userId: string;
+    name: string;
+    description: string;
+    username: string;
+    address: string;
+    status: string;
+    isActive: boolean;
+    logo: string;
+    email: string;
+    contact: string;
+    createdAt: string;
+    updatedAt: string;
+    user: any;
 }
 
-const StoreInfo = ({store}:{store:Store}) => {
+const StoreInfo = ({ store }: { store: Store }) => {
     return (
         <div className="flex-1 space-y-2 text-sm">
             <Image width={100} height={100} src={store.logo} alt={store.name} className="max-w-20 max-h-20 object-contain shadow rounded-full max-sm:mx-auto" />
@@ -27,13 +27,14 @@ const StoreInfo = ({store}:{store:Store}) => {
                 <h3 className="text-xl font-semibold text-slate-800"> {store.name} </h3>
                 <span className="text-sm">@{store.username}</span>
 
+                
                 {/* Status Badge */}
                 <span
                     className={`text-xs font-semibold px-4 py-1 rounded-full ${store.status === 'pending'
                         ? 'bg-yellow-100 text-yellow-800'
                         : store.status === 'rejected'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-green-100 text-green-800'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-green-100 text-green-800'
                         }`}
                 >
                     {store.status}

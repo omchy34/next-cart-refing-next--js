@@ -9,7 +9,7 @@ export async function GET(request: Request) {
         const { userId } = await auth();
         if (!userId) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
+        }   
         const isSaller = await authSaller(userId)
 
         if (!isSaller) {
